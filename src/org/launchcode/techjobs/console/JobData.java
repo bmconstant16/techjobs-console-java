@@ -10,6 +10,7 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by LaunchCode
@@ -76,9 +77,49 @@ public class JobData {
 
             String aValue = row.get(column);
 
-            if (aValue.contains(value)) {
+            if (aValue.toUpperCase().contains(value.toUpperCase())) {
                 jobs.add(row);
             }
+
+        }
+
+        return jobs;
+    }
+
+    /**
+     * Returns results of search the jobs data by all.
+     *
+     * For example, searching for employer "Enterprise" will include results
+     * with "Enterprise Holdings, Inc".
+     *
+     *
+     * @param value Value of the field to search for
+     * @return List of all jobs matching the criteria
+     */
+
+    public static ArrayList<HashMap<String, String>> findByValue(String value) {
+
+        // load data, if not already loaded
+        loadData();
+
+        // create a new array list of hashmaps called jobs
+        ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
+
+        // for each row, search for the searchTerm
+        for (HashMap<String, String> jobRow : allJobs) {
+
+            //for each property within jobRow
+            for (String propertyValue : jobRow.values()) {
+
+                // if propertyValue contains search term value (all same case)
+
+                if (propertyValue.toUpperCase().contains(value.toUpperCase())) {
+                    // add the jobRow to jobs
+                    jobs.add(jobRow);
+                }
+
+            }
+
         }
 
         return jobs;
